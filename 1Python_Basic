@@ -1,0 +1,97 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "70814686",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "n입력 : 22\n",
+      "132\n"
+     ]
+    }
+   ],
+   "source": [
+    "i=1\n",
+    "sum=0\n",
+    "n=int(input(\"n입력 : \"))\n",
+    "\n",
+    "while (i<=n):\n",
+    "    if (i%2==0):\n",
+    "        sum+=i\n",
+    "        i=i+1\n",
+    "    else :\n",
+    "        i=i+1\n",
+    "print(sum)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "2c322a22",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "85 70 63 59 100\n",
+      "영어 100\n",
+      "75.4\n"
+     ]
+    }
+   ],
+   "source": [
+    "Student={\"국어\":85,\"영어\":70,\"수학\":63,\"과학\":59,\"사회\":100}\n",
+    "print(Student[\"국어\"],Student[\"영어\"],Student[\"수학\"],Student[\"과학\"],Student[\"사회\"])\n",
+    "val_max=max(Student.values())\n",
+    "key_max=max(Student.keys())\n",
+    "print(key_max,val_max)\n",
+    "print(sum(Student.values())/len(Student))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1ce33fb0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "1+2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6c593b93",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
