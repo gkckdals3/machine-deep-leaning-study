@@ -10,13 +10,12 @@ fruits=np.load('fruits_300.npy')
 print(fruits.shape)
 
 print(fruits[0,0,:])
-
+흑백으로 데이터0번째 
 plt.imshow(fruits[0],cmap='gray')
 plt.show()
 
-plt.imshow(fruits[0],cmap='gray_r')
-plt.show()
 
+100번째,200번쨰 픽셀값 출력
 fig,axs=plt.subplots(1,2)
 axs[0].imshow(fruits[100],cmap='gray_r')
 axs[1].imshow(fruits[200],cmap='gray_r')
@@ -51,11 +50,25 @@ axs[2].imshow(banana_mean,cmap='gray_r')
 abs_diff=np.abs(fruits - apple_mean)
 abs_mean=np.mean(abs_diff,axis=(1,2))
 print(abs_mean.shape)
-
+#사과에 가까운 순서대로 배열
 apple_index=np.argsort(abs_mean)[:100]
 fig,axs=plt.subplots(10,10,figsize=(10,10))
 for i in range(10):
   for j in range(10):
     axs[i,j].imshow(fruits[apple_index[i*10+j]],cmap='gray_r')
+    axs[i,j].axis('off')
+plt.show()
+
+#데이터-바나나 평균값을 뺴고 절대값을 취함
+abs_diff_banana=np.abs(fruits-banana_mean)
+abs_mean_banana=np.mean(abs_diff_banana,axis=(1,2))
+print(abs_mean_banana.shape)
+
+#바나나와 가까운 순서대로 배열 및 출력
+banana_index=np.argsort(abs_mean_banana)[:100]
+fig,axs=plt.subplots(10,10,figsize=(10,10))
+for i in range(10):
+  for j in range(10):
+    axs[i,j].imshow(fruits[banana_index[i*10+j]],cmap='gray_r')
     axs[i,j].axis('off')
 plt.show()
