@@ -1,0 +1,516 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "7-2",
+      "provenance": [],
+      "authorship_tag": "ABX9TyNnQHoN1muS9nbsn0yaoVWK",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/gkckdals3/machine-deep-leaning-study/blob/main/_15Study_Book\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8bzjPCR5jm6b"
+      },
+      "source": [
+        "from tensorflow import keras\n",
+        "(train_input,train_target),(test_input,test_target)=\\\n",
+        "keras.datasets.fashion_mnist.load_data()"
+      ],
+      "execution_count": 35,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "irzyTUksDdKW"
+      },
+      "source": [
+        "from sklearn.model_selection import train_test_split\n",
+        "train_scaled=train_input/255.0\n",
+        "train_scaled=train_scaled.reshape(-1,28*28)\n",
+        "train_scaled,val_scaled,train_target,val_target=train_test_split(train_scaled,train_target,test_size=0.2,random_state=42)"
+      ],
+      "execution_count": 36,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8ztjUFANGASC"
+      },
+      "source": [
+        "dense1 = keras.layers.Dense(100, activation='sigmoid', input_shape=(784,))\n",
+        "dense2 = keras.layers.Dense(10, activation='softmax')"
+      ],
+      "execution_count": 37,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2LnTBmD7D4Ev"
+      },
+      "source": [
+        "model=keras.Sequential([dense1,dense2])"
+      ],
+      "execution_count": 38,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ehE5culXJYmr",
+        "outputId": "997dc059-64fa-436e-8aec-2875b1c69665"
+      },
+      "source": [
+        "model.summary()"
+      ],
+      "execution_count": 39,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Model: \"sequential_2\"\n",
+            "_________________________________________________________________\n",
+            "Layer (type)                 Output Shape              Param #   \n",
+            "=================================================================\n",
+            "dense_5 (Dense)              (None, 100)               78500     \n",
+            "_________________________________________________________________\n",
+            "dense_6 (Dense)              (None, 10)                1010      \n",
+            "=================================================================\n",
+            "Total params: 79,510\n",
+            "Trainable params: 79,510\n",
+            "Non-trainable params: 0\n",
+            "_________________________________________________________________\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "jIPeiRxwJCTn"
+      },
+      "source": [
+        "model = keras.Sequential([\n",
+        "    keras.layers.Dense(100, activation='sigmoid', input_shape=(784,), name='hidden'),\n",
+        "    keras.layers.Dense(10, activation='softmax', name='output')\n",
+        "], name='패션 MNIST 모델')"
+      ],
+      "execution_count": 40,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "2d0TFKrnMh25",
+        "outputId": "1a6e4eaf-f8d3-4c22-c3f1-24a48a0d5c84"
+      },
+      "source": [
+        "model.summary()"
+      ],
+      "execution_count": 41,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Model: \"패션 MNIST 모델\"\n",
+            "_________________________________________________________________\n",
+            "Layer (type)                 Output Shape              Param #   \n",
+            "=================================================================\n",
+            "hidden (Dense)               (None, 100)               78500     \n",
+            "_________________________________________________________________\n",
+            "output (Dense)               (None, 10)                1010      \n",
+            "=================================================================\n",
+            "Total params: 79,510\n",
+            "Trainable params: 79,510\n",
+            "Non-trainable params: 0\n",
+            "_________________________________________________________________\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "uMRwsnNtNjLY"
+      },
+      "source": [
+        "model=keras.Sequential()\n",
+        "model.add(keras.layers.Dense(100,activation='sigmoid' , input_shape=(784,)))"
+      ],
+      "execution_count": 42,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nQkgFPSAN6Na",
+        "outputId": "0beac198-0654-4bdb-eb10-a531c3b0d1b1"
+      },
+      "source": [
+        "model.compile(loss='sparse_categorical_crossentropy', metrics='accuracy')\n",
+        "\n",
+        "model.fit(train_scaled, train_target, epochs=5)"
+      ],
+      "execution_count": 43,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Epoch 1/5\n",
+            "1500/1500 [==============================] - 4s 2ms/step - loss: 0.6230 - accuracy: 0.7929\n",
+            "Epoch 2/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.4787 - accuracy: 0.8400\n",
+            "Epoch 3/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.4553 - accuracy: 0.8486\n",
+            "Epoch 4/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.4451 - accuracy: 0.8512\n",
+            "Epoch 5/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.4379 - accuracy: 0.8551\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<keras.callbacks.History at 0x7f53e86e3190>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 43
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "vphbDk4NQoGk"
+      },
+      "source": [
+        "model=keras.Sequential()\n",
+        "model.add(keras.layers.Flatten(input_shape=(28,28)))\n",
+        "model.add(keras.layers.Dense(100,activation='relu'))\n",
+        "model.add(keras.layers.Dense(10,activation='softmax'))"
+      ],
+      "execution_count": 45,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "nXmP5UZwO3C3",
+        "outputId": "077b16b7-8862-48eb-c691-729c5cf7244f"
+      },
+      "source": [
+        "model.summary()"
+      ],
+      "execution_count": 46,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Model: \"sequential_5\"\n",
+            "_________________________________________________________________\n",
+            "Layer (type)                 Output Shape              Param #   \n",
+            "=================================================================\n",
+            "flatten (Flatten)            (None, 784)               0         \n",
+            "_________________________________________________________________\n",
+            "dense_8 (Dense)              (None, 100)               78500     \n",
+            "_________________________________________________________________\n",
+            "dense_9 (Dense)              (None, 10)                1010      \n",
+            "=================================================================\n",
+            "Total params: 79,510\n",
+            "Trainable params: 79,510\n",
+            "Non-trainable params: 0\n",
+            "_________________________________________________________________\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "QHePGLLgQHfK"
+      },
+      "source": [
+        "(train_input,train_target),(test_input,test_target)=\\\n",
+        "keras.datasets.fashion_mnist.load_data()\n",
+        "train_scaled=train_input/255.0\n",
+        "train_scaled,val_scaled,train_target,val_target=train_test_split(train_scaled,train_target,test_size=0.2,random_state=42)"
+      ],
+      "execution_count": 52,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "shYUGjqDSQW_",
+        "outputId": "fbb4efa2-b440-41eb-d357-7e0af9484abf"
+      },
+      "source": [
+        "model.compile(loss='sparse_categorical_crossentropy',metrics='accuracy')\n",
+        "model.fit(train_scaled,train_target,epochs=5)"
+      ],
+      "execution_count": 54,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Epoch 1/5\n",
+            "1500/1500 [==============================] - 4s 2ms/step - loss: 0.5214 - accuracy: 0.8156\n",
+            "Epoch 2/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.3892 - accuracy: 0.8602\n",
+            "Epoch 3/5\n",
+            "1500/1500 [==============================] - 4s 2ms/step - loss: 0.3547 - accuracy: 0.8712\n",
+            "Epoch 4/5\n",
+            "1500/1500 [==============================] - 4s 2ms/step - loss: 0.3312 - accuracy: 0.8820\n",
+            "Epoch 5/5\n",
+            "1500/1500 [==============================] - 4s 2ms/step - loss: 0.3176 - accuracy: 0.8865\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<keras.callbacks.History at 0x7f53e60be490>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 54
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "ZTQLRjaLTBvg",
+        "outputId": "52bb841d-4ccc-49bf-c95a-65c29b72e381"
+      },
+      "source": [
+        "model.evaluate(val_scaled,val_target)"
+      ],
+      "execution_count": 55,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "375/375 [==============================] - 1s 1ms/step - loss: 0.3696 - accuracy: 0.8758\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[0.36964574456214905, 0.8758333325386047]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 55
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "ZZkCkVjJTNEA"
+      },
+      "source": [
+        "model.compile(optimizer='sgd',loss='sparse_categorical_crossentropy',metrics='accuracy')"
+      ],
+      "execution_count": 56,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "98WsRpY8ZCbw"
+      },
+      "source": [
+        "sgd=keras.optimizers.SGD()\n",
+        "model.compile(optimizer=sgd,loss='sparse_categorical_crossentropy',metrics='accuracy')"
+      ],
+      "execution_count": 58,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "hC0BYzMdZS_o"
+      },
+      "source": [
+        "sgd=keras.optimizers.SGD(learning_rate=0.1)"
+      ],
+      "execution_count": 59,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_3e_1gd8ZoLg"
+      },
+      "source": [
+        "sgd=keras.optimizers.SGD(momentum=0.9,nesterov=True)"
+      ],
+      "execution_count": 60,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "sKlW8ng8Z39U"
+      },
+      "source": [
+        "model=keras.Sequential()\n",
+        "model.add(keras.layers.Flatten(input_shape=(28,28)))\n",
+        "model.add(keras.layers.Dense(100,activation='relu'))\n",
+        "model.add(keras.layers.Dense(10,activation='softmax'))"
+      ],
+      "execution_count": 61,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "uQO1Fxa4enpx",
+        "outputId": "216a0fda-8394-47f3-aea4-3afae8cdf378"
+      },
+      "source": [
+        "model.compile(optimizer='adam',loss='sparse_categorical_crossentropy',metrics='accuracy')\n",
+        "model.fit(train_scaled,train_target,epochs=5)"
+      ],
+      "execution_count": 63,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Epoch 1/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.5261 - accuracy: 0.8152\n",
+            "Epoch 2/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.3950 - accuracy: 0.8579\n",
+            "Epoch 3/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.3544 - accuracy: 0.8720\n",
+            "Epoch 4/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.3254 - accuracy: 0.8814\n",
+            "Epoch 5/5\n",
+            "1500/1500 [==============================] - 3s 2ms/step - loss: 0.3085 - accuracy: 0.8865\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "<keras.callbacks.History at 0x7f53e84a0690>"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 63
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "qiB9T3FyqSor",
+        "outputId": "c2702228-3228-449d-8d22-9b08a854b4b8"
+      },
+      "source": [
+        "model.evaluate(val_scaled,val_target)"
+      ],
+      "execution_count": 64,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "375/375 [==============================] - 1s 1ms/step - loss: 0.3345 - accuracy: 0.8832\n"
+          ]
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[0.33454203605651855, 0.8831666707992554]"
+            ]
+          },
+          "metadata": {},
+          "execution_count": 64
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "O23YPyZGqcUK"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0uQYQyGEs2NK"
+      },
+      "source": [
+        ""
+      ],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
